@@ -75,6 +75,12 @@
 
     private function build_body($params)
     {
+      if(empty($params["expiration"])) {
+        $expiration = time() + 60;
+      } else {
+        $expiration = $params["expiration"];
+      }
+
       if(empty($params["amount"])) {
         $amount = 5.0;
       } else {
@@ -88,7 +94,7 @@
       }
 
       $body .= "/" . $this->packer->big_endian_float($amount);
-      $body .= $this->packer->big_endian_signed_32bit($params["expiration"]);
+      $body .= $this->packer->big_endian_signed_32bit($expiration);
 
       return $body;
     }

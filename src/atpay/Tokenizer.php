@@ -89,7 +89,7 @@
 
       $body = "card<" . $params["card"] . ">";
 
-      if($params["group"]) {
+      if(array_key_exists("group", $params)) {
         $body .= ":" . $params["group"];
       }
 

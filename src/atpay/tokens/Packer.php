@@ -10,12 +10,13 @@
 
     function __construct()
     {
-      $four = decbin(4);
+      $test_int = 0x00FF;
+      $p = pack("S", $test_int);
 
-      if($four[0] == "1") {
-        $this->big_endian = FALSE;
-      } else {
+      if($test_int === unpack("n", $p)) {
         $this->big_endian = TRUE;
+      } else {
+        $this->big_endian = FALSE;
       }
     }
 

@@ -6,14 +6,35 @@
   */
   class Packer
   {
+    public $big_endian;
+
+    function __construct()
+    {
+      $four = decbin(4);
+
+      if($four[0] == "1") {
+        $this->big_endian = FALSE;
+      } else {
+        $this->big_endian = TRUE;
+      }
+    }
+
     public function big_endian_int($val)
     {
-      return strrev(pack("I", $val));
+      if($this->big_endian) {
+        return pack("I", $val);
+      } else {
+        return strrev(pack("I", $val));
+      }
     }
 
     public function big_endian_float($val)
     {
-      return strrev(pack("f", $val));
+      if($this->big_endian) {
+        return pack("f", $val);
+      } else {
+        return strrev(pack("f", $val));
+      }
     }
 
     public function big_endian_long($val)
@@ -28,8 +49,11 @@
 
     public function big_endian_signed_32bit($val)
     {
-      return strrev(pack("l", $val));
+      if($this->big_endian) {
+        return pack("l", $val);
+      } else {
+        return strrev(pack("l", $val));
+      }
     }
   }
-
 ?>

@@ -2,8 +2,6 @@
 
 This is the native PHP implementation of the AtPay Token Generator.  It currently only supports the generation of [2-click Site Tokens](http://developer.atpay.com/v1/guides/accepting-cards/).
 
-Email Token generation is planned for the near future.
-
 ## Requirements
 
 * This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.

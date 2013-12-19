@@ -19,7 +19,7 @@
     $rel_part = "";
 
     foreach($parts as $dir) {
-      $rel_part .= strtolower($dir) . "/";
+      $rel_part .= $dir . "/";
     }
 
     return $rel_part;

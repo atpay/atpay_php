@@ -12,8 +12,8 @@
     public function testSiteTokenDefaults()
     {
       $keys = [
-        "private" => "EpBic6szxPJVbwlW3VAfE6MZSdWdA04t2Nm6yRQFpf0=", 
-        "public" => "jZutz9bU6FWIIIRn/12zneT74yWCCuvN5/Su5LvP+3o=",
+        "private" => "EpBic6szxPJVbwlW3VAfEzMZSdWdA04t2Nm6yRQFpf0=", 
+        "public" => "jZutz9bU6FWIIcRn/12zneT74yWCCuvN5/Su5LvP+3o=",
         "atpay" => "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18="
       ];
 

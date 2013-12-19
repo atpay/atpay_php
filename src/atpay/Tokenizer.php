@@ -2,7 +2,8 @@
   namespace AtPay;
 
   /**
-  * The Tokenizer is a convenience class for creating an actual Site Token
+  * The Tokenizer is a convenience class for creating an actual Site Token.  In the future this will also handle email token generation.
+  * A Tokenizer instance requires an array containing your "private" key, your "public" key and the "atpay" public key.
   */
   class Tokenizer
   {
@@ -10,6 +11,9 @@
     private $packer;
     private $noncer;
     
+    /*
+    * 
+    */
     function __construct($keys)
     {
       $this->encrypter = new Tokens\Encrypter($keys["private"], $keys["public"], $keys["atpay"]);

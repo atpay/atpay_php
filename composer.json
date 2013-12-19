@@ -1,0 +1,23 @@
+{
+  "name": "atpay/tokens",
+  "type": "library",
+  "description": "AtPay Payment Token Generator",
+  "keywords": ["atpay", "AtPay", "@Pay"],
+  "homepage": "https://github.com/atpay/atpay_php",
+  "license": "LGPL",
+  "authors": [
+    {
+      "name": "Glen Holcomb",
+      "email": "glen@atpay.com",
+      "homepage": "https://atpay.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "ext-sodium": "*"
+  },
+  "autoload": {
+    "psr-0": {"AtPay\\": "src/"}
+  }
+}

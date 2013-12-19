@@ -2,7 +2,7 @@
   "name": "atpay/tokens",
   "type": "library",
   "description": "AtPay Payment Token Generator",
-  "keywords": ["atpay", "AtPay", "@Pay"],
+  "keywords": ["atpay", "AtPay", "Atpay"],
   "homepage": "https://github.com/atpay/atpay_php",
   "license": "LGPL",
   "authors": [

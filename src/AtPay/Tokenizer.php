@@ -14,6 +14,7 @@
     /*
     * 
     */
+
     function __construct($keys)
     {
       $this->encrypter = new Tokens\Encrypter($keys["private"], $keys["public"], $keys["atpay"]);
@@ -21,7 +22,7 @@
       $this->noncer = new \sodium\nonce();
     }
 
-    public function site_token($card_token, $params)
+    public function site_token($target, $params)
     {
       if(empty($params["ip"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
@@ -35,12 +36,32 @@
       $header_length = $this->payload_length($header_box);
       $ip_length = $this->payload_length($ip);
 
-      $body = $this->box($this->build_body($params), $nonce);
+      $body = $this->box($this->build_body($params, $target), $nonce);
 
       $contents = $nonce->nbin . $partner_id . $header_length . $header_box . $ip_length . $ip . $body;
 
       return "@" . $this->encode64($contents); 
     }
+
+
+    public function email_token($target, $params)
+    {
+      if(empty($params["ip"])) {
+        $ip = $_SERVER["REMOTE_ADDR"];
+      } else {
+        $ip = $params["ip"];
+      }
+
+      $nonce = $this->noncer->next();
+      $partner_id = $this->packer->big_endian_long($params["partner_id"]);
+
+      $body = $this->box($this->build_body($params, $target), $nonce);
+
+      $contents = $nonce->nbin . $partner_id . $body;
+
+      return "@" . $this->encode64($contents); 
+    }
+
 
     private function box($payload, $nonce)
     {
@@ -77,8 +98,9 @@
       return $this->packer->big_endian_signed_32bit(strlen($str));
     }
 
-    private function build_body($params)
+    private function build_body($params, $target)
     {
+
       if(empty($params["expiration"])) {
         $expiration = time() + 60;
       } else {
@@ -90,8 +112,21 @@
       } else {
         $amount = $params["amount"];
       }
+      
+      if(array_key_exists("group", $params)) {
+        if($params["type"] == "url") {
+          $body = "url<" . $target . ">";
+        }elseif($params["type"] == "email"){
+          $body = "email<" . $target . ">";
+        }elseif($params["type"] == "member"){
+          $body = "member<" . $target . ">";
+        }else{
+          $body = "card<" . $target . ">";        
+        }      
+      }else{
+        $body = "card<" . $target . ">";        
+      }
 
-      $body = "card<" . $params["card"] . ">";
 
       if(array_key_exists("group", $params)) {
         $body .= ":" . $params["group"];
@@ -99,6 +134,10 @@
 
       $body .= "/" . $this->packer->big_endian_float($amount);
       $body .= $this->packer->big_endian_signed_32bit($expiration);
+
+      if(array_key_exists("user_data", $params)) {
+        $body .= "/" . $params["user_data"];
+      }
 
       return $body;
     }

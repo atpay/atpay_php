@@ -153,37 +153,15 @@ User Data can be anything that you wish to get back in @Pay’s response on proc
 
   $tokenizer = new \AtPay\Tokenizer($keys);
 
-  $card = "OTAzYzUzNWVjOVKhtOalUQA=";
-
-  $params_site = [
-    "partner_id" => 8254,
-    "amount" => 12.62,
-    "expiration" => time() + 60,
-    "headers" => [
-      "user_agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36",
-      "accept_lang" => "en-US,en;q=0.8",
-      "accept_chars" => ""
-    ],
-    "ip" => "173.163.242.11"
-  ];
-
-
   $url = "http://example.com/signup";
 
-  $params_email = [
+  $params = [
     "type" => "url",
     "partner_id" => 8254,
     "amount" => 12.62
   ];
 
-
-  $site_token = $tokenizer->site_token($card, $params_site);
-  $email_token = $tokenizer->email_token($url, $params_email);
-
-
-  echo "<h1>Tokens</h1>";
-  echo "Email Token:<br />".$email_token."<br /><br />";
-  echo "Site Token:<br />".$site_token."<br /><br />";
+  $email_token = $tokenizer->email_token($url, $params);
 ```
 
 If you wish to use the default for any of the optional values omit the key/value pair completely from the $params array.

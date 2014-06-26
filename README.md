@@ -1,6 +1,6 @@
 # AtPay Token Generator
 
-This is the native PHP implementation of the AtPay Token Generator.  It currently only supports the generation of [2-click Site Tokens](http://developer.atpay.com/v1/guides/accepting-cards/).
+This is the native PHP implementation of the AtPay Token Generator.
 
 ## Requirements
 
@@ -48,13 +48,10 @@ The "private" key is provided to you by AtPay.
 The "public" key is also provided to you by AtPay.
 The "atpay" key is the AtPay public key specific to the environment you are talking to.
 
-If you need to lookup or re-generate your keys you can do so in the following locations:
+If you need to lookup or re-generate your keys you can do so in your merchant dashboard:
 
-* [Sandbox](https://sandbox-api.atpay.com)
-* [Beta](https://beta-api.atpay.com)
-* [Production](https://api.atpay.com)
+* [@Pay Dashboard](https://dashboard.atpay.com)
 
-If you do not yet have keys or an account with @Pay you can set up a test account [here](https://www.atpay.com/request-sandbox-access/).
 
 ##### Site Tokens
 
@@ -126,10 +123,10 @@ These are probably what you would expect for a financial transaction: a recipien
 
 ###### Email Token Target
 
-You can specify between email token types. 
+You can specify between email token types.
 
 * url - a universal token that will look up card information by the "from" address. If none, will redirect to url provided.
-* card (default) - card token 
+* card (default) - card token
 * member - UUID of @pay member
 * email - member email
 

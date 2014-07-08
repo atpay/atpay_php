@@ -40,7 +40,7 @@
 
       $contents = $nonce->nbin . $partner_id . $header_length . $header_box . $ip_length . $ip . $body;
 
-      return "@".$this->encode64($contents)."@";
+      return "@" . $this->encode64($contents);
     }
 
 
@@ -59,7 +59,7 @@
 
       $contents = $nonce->nbin . $partner_id . $body;
 
-      return "@".$this->encode64($contents)."@";
+      return "@" . $this->encode64($contents);
     }
 
 
@@ -75,7 +75,7 @@
 
     private function encode64($data)
     {
-      return strtr(base64_encode($data), '+/=', '-_');
+      return base64_encode($data);
     }
 
     private function header_hash($params)
@@ -113,12 +113,16 @@
         $amount = $params["amount"];
       }
 
-      if($params["type"] == "url") {
-        $body = "url<" . $target . ">";
-      }elseif($params["type"] == "email"){
-        $body = "email<" . $target . ">";
-      }elseif($params["type"] == "member"){
-        $body = "member<" . $target . ">";
+      if(array_key_exists("group", $params)) {
+        if($params["type"] == "url") {
+          $body = "url<" . $target . ">";
+        }elseif($params["type"] == "email"){
+          $body = "email<" . $target . ">";
+        }elseif($params["type"] == "member"){
+          $body = "member<" . $target . ">";
+        }else{
+          $body = "card<" . $target . ">";
+        }
       }else{
         $body = "card<" . $target . ">";
       }

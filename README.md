@@ -55,7 +55,7 @@ You can find all three keys on the API Settings section when logged into your @P
 
   ```php
       $tokenizer->invoice_token(TARGET, PARAMERTERS);
-  ...
+  ```
 
 
 

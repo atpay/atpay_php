@@ -126,13 +126,11 @@ These are probably what you would expect for a financial transaction: a recipien
 You can specify between email token types.
 
 * url - a universal token that will look up card information by the "from" address. If none, will redirect to url provided.
-* card (default) - card token
-* member - UUID of @pay member
 * email - member email
 
 ###### Extras
 
-There is also an optional expiration that can be set on the token.  By default the token expires 60 seconds after being created.  A valid expiration value is a number of seconds since Unix Epoch.
+There is also an optional expiration that can be set on the token.  By default the token expires 1 day (86400 seconds) after being created.  A valid expiration value is a number of seconds since Unix Epoch.
 
 ###### User Data
 

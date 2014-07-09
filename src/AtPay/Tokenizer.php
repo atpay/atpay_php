@@ -95,9 +95,11 @@
     private function build_body($params, $target, $token_type)
     {
 
-      if(empty($params["expiration"])) {
+      if(empty($params["expiration"]) && $token_type == "email") {
+        $expiration = time() + (24*60*60);
+      } elseif(empty($params["expiration"]) && $token_type == "site") {
         $expiration = time() + 60;
-      } else {
+      }else{
         $expiration = $params["expiration"];
       }
 

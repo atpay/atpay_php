@@ -28,7 +28,7 @@ Add atpay/tokens as a requirement in your composer file
 
 #### Email Token Generation
 
-Token Generation is simple and straight forward.  You simply need to instantiate the Tokenizer class with the appropriate keys and then pass all the necessary parameters to the email_token method.
+Token Generation is simple and straight forward.  You simply need to instantiate the Tokenizer class with the appropriate keys and then pass all the necessary arguments to the email_token method.
 
 ##### Initialization
 
@@ -49,6 +49,16 @@ You can find all three keys on the API Settings section when logged into your @P
 * [@Pay Merchant Dashboard](https://dashboard.atpay.com)
 
 
+##### The Tokenizer
+
+  After the Tokenizer in instantiated, you can call on the email_token method. There are two arguments that can be passed.
+
+  ```php
+      $tokenizer->invoice_token(TARGET, PARAMERTERS);
+  ...
+
+
+
 ##### Required Parameters
 
 * type
@@ -64,13 +74,15 @@ The **target** is either an e-mail address (for invoice tokens), or a URL (for b
 
 The **amount** is the final sale amount as a floating point value, for example 12.37
 
+
 ###### More On Token Types
 
 You can specify between email token types.
 
- ***bulk*** - a universal token that will look up card information by the "from" address. If none, will redirect to url provided.
+***bulk*** - a universal token will look up card information by the "from" address. If none, will redirect to url provided.
 
- ***invoice*** - a one-to-one token that will only work for a specified target.
+***invoice*** - a single-user token will only work for a specified target.
+
 
 
 
@@ -85,10 +97,12 @@ The **expiration** is the lifetime of the token. By default the token expires 1 
 
 
 
-#### Target
+
+##### Target
 
   The **target** is either an e-mail address (for invoice tokens), or a URL (for bulk tokens)
   If a target is left blank for a ***bulk*** token, an @Pay hosted payment form will be generated and used.  
+
 
 
 

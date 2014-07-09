@@ -54,7 +54,7 @@ You can find all three keys on the API Settings section when logged into your @P
   After the Tokenizer in instantiated, you can call on the email_token method. There are two arguments that can be passed.
 
   ```php
-      $tokenizer->invoice_token(TARGET, PARAMERTERS);
+      $tokenizer->invoice_token(TARGET, PARAMETERS);
   ```
 
 

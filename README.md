@@ -48,11 +48,8 @@ You can find all three keys on the API Settings section when logged into your @P
 
 * [@Pay Merchant Dashboard](https://dashboard.atpay.com)
 
-##### Generate Email Tokens
 
-To build an email token you need to provide information about the transaction.
-
-###### Required Parameters
+##### Required Parameters
 
 As far as transaction details go there are three required parameters:
 
@@ -69,6 +66,7 @@ The **target** is either an e-mail address (for invoice tokens), or a URL (for b
 
 The **amount** is the final sale amount as a floating point value, for example 12.37
 
+
 ###### More On Token Types
 
 You can specify between email token types.
@@ -76,7 +74,8 @@ You can specify between email token types.
 * bulk - a universal token that will look up card information by the "from" address. If none, will redirect to url provided.
 * invoice - a one-to-one token that will only work for a specified target.
 
-###### Optional Parameters
+
+##### Optional Parameters
 
 * user_data
 * expiration
@@ -86,7 +85,7 @@ The **user_data** parameter can be anything that you wish to get back in @Pay’
 The **expiration** is the lifetime of the token. By default the token expires 1 day (86400 seconds) after being created.  A valid expiration value is a number of seconds since Unix Epoch.
 
 
-###### Examples
+##### Example
 
 ```php
 <?php

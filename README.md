@@ -1,4 +1,4 @@
-# AtPay Token Generator
+# @Pay Token Generator
 
 This is the native PHP implementation of the AtPay Token Generator.
 

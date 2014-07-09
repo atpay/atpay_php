@@ -113,8 +113,8 @@
 
       <label for="target">Type:</label>
       <select name="type" >
-        <option value="url">URL</option>
-        <option value="email">E-Mail</option>
+        <option value="bulk">Bulk</option>
+        <option value="invoice">Invoice</option>
       </select>
 
       <input type="submit" name="submit" value="Submit"/>

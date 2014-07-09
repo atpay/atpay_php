@@ -1,6 +1,6 @@
 # @Pay Token Generator
 
-This is the native PHP implementation of the AtPay Token Generator.
+This is the native PHP implementation of the @Pay Token Generator.
 
 ## Requirements
 

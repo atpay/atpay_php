@@ -112,9 +112,9 @@
 
       if($token_type == "site"){
         if(array_key_exists("group", $params)) {
-          if($params["type"] == "url") {
+          if($params["type"] == "url" || $params["type"] == "bulk") {
             $body = "url<" . $target . ">";
-          }elseif($params["type"] == "email"){
+          }elseif($params["type"] == "email" $params["type"] == "invoice"){
             $body = "email<" . $target . ">";
           }elseif($params["type"] == "member"){
             $body = "member<" . $target . ">";
@@ -125,7 +125,7 @@
           $body = "card<" . $target . ">";
         }
       }else{
-        if($params["type"] == "email") {
+        if($params["type"] == "invoice" || $params["type"] == "email") {
           $body = "email<" . $target . ">";
         }else{
           $body = "url<" . $target . ">";

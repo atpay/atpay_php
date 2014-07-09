@@ -9,7 +9,7 @@
     private $token;
     private $packer;
 
-    public function testSiteTokenDefaults()
+    private function atpay_keys()
     {
       $keys = [
         "private" => "EpBic6szxPJVbwlW3VAfEzMZSdWdA04t2Nm6yRQFpf0=",
@@ -17,15 +17,7 @@
         "atpay" => "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18="
       ];
 
-      $this->packer = new \AtPay\Tokens\Packer();
-
-      $card = "OTAzYzUzNWVjOVKhtOalUQA=";
-      $tokenizer = new \AtPay\Tokenizer($keys);
-      $val = ltrim($tokenizer->site_token($card, $this->params()), "@");
-      $this->token = base64_decode(strtr($val, '-_,', '+/='));
-
-      $this->has_ip($this->params()["ip"]);
-      $this->has_partner_id($this->params()["partner_id"]);
+      return $keys;
     }
 
     private function params()
@@ -40,6 +32,42 @@
         "partner_id" => 19,
         "card" => "OTAzYzUzNWVjOVKhtOalUQA="
       ];
+    }
+
+    private function email_params()
+    {
+      return [
+        "partner_id" => 19,
+        "type" => "email",
+        "target" => "me@example.com"
+      ];
+    }
+
+    public function testSiteTokenDefaults()
+    {
+
+      $this->packer = new \AtPay\Tokens\Packer();
+
+      $card = "OTAzYzUzNWVjOVKhtOalUQA=";
+      $tokenizer = new \AtPay\Tokenizer($this->atpay_keys());
+      $val = ltrim($tokenizer->site_token($card, $this->params()), "@");
+      $this->token = base64_decode(strtr($val, '-_', '+/'));
+
+      $this->has_ip($this->params()["ip"]);
+      $this->has_partner_id($this->params()["partner_id"]);
+    }
+
+    public function testEmailTokenDefaults()
+    {
+
+      $this->packer = new \AtPay\Tokens\Packer();
+
+      $target= "me@example.com";
+      $tokenizer = new \AtPay\Tokenizer($this->atpay_keys());
+      $val = ltrim($tokenizer->email_token($target, $this->email_params()), "@");
+      $this->token = base64_decode(strtr($val, '-_', '+/'));
+
+      $this->has_partner_id($this->email_params()["partner_id"]);
     }
 
     private function has_ip($ip)

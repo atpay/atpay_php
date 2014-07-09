@@ -72,6 +72,7 @@ The **amount** is the final sale amount as a floating point value, for example 1
 You can specify between email token types.
 
  ***bulk*** - a universal token that will look up card information by the "from" address. If none, will redirect to url provided.
+ 
  ***invoice*** - a one-to-one token that will only work for a specified target.
 
 

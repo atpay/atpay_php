@@ -20,7 +20,7 @@ receive a receipt or further instructions.
 
 ## Installation
 
-* This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.
+*This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.*
 
 Simply checkout this repository and copy the atpay.phar file out of the build directory.
 

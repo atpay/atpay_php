@@ -37,19 +37,11 @@ If you're using Composer, you can add the following to your composer.json file:
 
 ## Configuration
 
+All Token generation functions require a Session object. Just grab your API credentials from https://dashboard.atpay.com/ (API Settings):
+
 ```php
-  $keys = [
-    "private" => "EpBic6szxPJVbwlW3VAfEzMZSdWdA04t2Nm6yRQFpf0=",
-    "public" => "jZutz9bU6FWIIcRn/12zneT74yWCCuvN5/Su5LvP+3o=",
-    "atpay" => "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18="
-  ]
-
-  $AtPay_Token = new \AtPay\Token($keys);
+    $session = new \AtPay\Session(partner_id, public_key, private_key);
 ```
-
-You can find all three keys on the API Settings section when logged into your @Pay Merchant Dashboard.
-
-* [@Pay Merchant Dashboard](https://dashboard.atpay.com)
 
 ## Invoice Tokens
 
@@ -61,7 +53,8 @@ The following creates a token for a 20 dollar transaction specifically for the
 credit card @Pay has associated with 'test@example.com'. The item has a reference id of 'sku-123':
 
 ```php
-  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  echo $invoice_token->to_s();
 ```
 
 ## Bulk Tokens
@@ -78,7 +71,8 @@ general marketing.
 To create a **Bulk Token** for a 30 dollar blender:
 
 ```php
-  $token = $AtPay_Token->Invoice(30.00, 'http://example.com/blender-30', 'blender-30');
+  $bulk_token = new \AtPay\Token\Bulk($session, 30, 'http://example.com/blender-30', 'sku-123');
+  echo $bulk_token->to_s();
 ```
 
 If a recipient of this token attempts to purchase the product via email but
@@ -97,8 +91,9 @@ simultaneously. If you're shipping a physical good, or for some other reason
 want to delay the capture, use the `auth_only!` method to adjust this behavior:
 
 ```php
-  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
-  $token = $token->auth_only();
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $invoice_token->auth_only();
+  echo $invoice_token->to_s();
 ```
 
 ### Expiration
@@ -108,8 +103,9 @@ after the expiration results in a polite error message being sent to the sender.
 To adjust the expiration:
 
 ```php
-  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
-  $token = $token->expires_in_seconds(60 * 60 * 24 * 7); // one week
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
+  echo $invoice_token->to_s();
  ```
 
 ### User Data
@@ -118,8 +114,9 @@ To adjust the expiration:
 response on processing the token. It has a limit of 2500 characters.
 
 ```php
-  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
-  $token = $token->user_data("{foo => bar}");
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $invoice_token->user_data("{foo => bar}");
+  echo $invoice_token->to_s();
 ```
 
 
@@ -127,30 +124,24 @@ response on processing the token. It has a limit of 2500 characters.
 
 The PHP client does not currently support button generation.
 
-
 ## Example
 
 ```php
 <?php
   require_once 'atpay.phar'; # include php archive. Require "atpay/tokens": "1.0" if using Composer to manage packages.
 
-  $keys = [
-    "private" => "xxxxx", # find at your @Pay Merchant dashboard under "API Settings"
-    "public" => "xxxxx", # find at your @Pay Merchant dashboard under "API Settings"
-    "atpay" => "xxxxx" # find at your @Pay Merchant dashboard under "API Settings"
-  ];
+  $session = new \AtPay\Session(partner_id, public_key, private_key);
 
-  $AtPay_Token = new \AtPay\Token($keys); # instantiate with keys
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $token = $invoice_token->to_s();
 
-  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
-
-  if ($email_token) {
+  if ($token) {
     $from = "test@example.com";
     $headers  = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
     $headers .= 'From: '.$from."\r\n";
     $subject = "Email Offer";
-    $message = '<a href="mailto:transactions@.atpay.com?subject=PHP Token&body='.$email_token.'">Click to Buy</a>'; # creates a mailto with generated invoice token that will send to @Pay to process
+    $message = '<a href="mailto:transactions@.atpay.com?subject=PHP Token&body='.$token.'">Click to Buy</a>'; # creates a mailto with generated invoice token that will send to @Pay to process
     mail($target,$subject,$message,$headers); # send email to target. Adjust if invoice token
     echo "Tokenized link emailed.";
   }

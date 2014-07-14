@@ -53,7 +53,7 @@
     {
       $body = "url<" . $url . ">";
       $body .= "/" . $this->packer->big_endian_float($amount);
-      $body .= $this->packer->big_endian_signed_32bit($expiration);
+      $body .= $this->packer->big_endian_signed_32bit($this->expiration);
       $body .= "/" . $this->user_data;
 
       return $body;

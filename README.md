@@ -120,6 +120,7 @@ response on processing the token. It has a limit of 2500 characters.
 ```php
   $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
   $token = $token->user_data("{foo => bar}");
+```
 
 
 ## Button Generation

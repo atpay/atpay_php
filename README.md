@@ -20,6 +20,8 @@ receive a receipt or further instructions.
 
 ## Installation
 
+* This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.
+
 Simply checkout this repository and copy the atpay.phar file out of the build directory.
 
 If you're using Composer, you can add the following to your composer.json file:
@@ -156,7 +158,3 @@ The PHP client does not currently support button generation. For more informatio
   }
 ?>
 ```
-
-## License
-
-#### LGPL

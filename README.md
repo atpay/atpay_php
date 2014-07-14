@@ -37,8 +37,6 @@ If you're using Composer, you can add the following to your composer.json file:
 
 ## Configuration
 
-The Tokenizer expects an array of keys on initialization:
-
 ```php
   $keys = [
     "private" => "EpBic6szxPJVbwlW3VAfEzMZSdWdA04t2Nm6yRQFpf0=",

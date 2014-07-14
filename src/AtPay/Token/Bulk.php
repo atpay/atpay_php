@@ -30,7 +30,7 @@
 
     public function user_data($string)
     {
-      $this->user_data = $string
+      $this->user_data = $string;
     }
 
     public function to_s(){

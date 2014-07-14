@@ -1,22 +1,28 @@
-# @Pay Token Generator
+# @Pay PHP Bindings
 
-This is the native PHP implementation of the @Pay Token Generator.
+PHP implementation of @Pay's [**Token Protocol**](http://developer.atpay.com/v3/tokens/protocol/). See the [@Pay Developer Site](http://developer.atpay.com/)
+for additional information.
 
-## Requirements
+A **Token** is a value that contains information about a financial transaction (an invoice
+or a product sales offer, for instance). When a **Token** is sent to
+`transaction@processor.atpay.com` from an address associated with a **Payment Method**,
+it will create a **Transaction**.
 
-* This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.
+There are two classes of **Token** @Pay processes - the **Invoice Token**, which should
+be used for sending invoices or transactions applicable to a single
+recipient, and the **Bulk Token**, which is suitable for email marketing lists.
 
-## Usage
+An **Email Button** is a link embedded in an email message. When activated, this link
+opens a new outgoing email with a recipient, subject, and message body
+prefilled. By default this email contains one of the two token types. Clicking
+'Send' delivers the email to @Pay and triggers **Transaction** processing. The sender will
+receive a receipt or further instructions.
 
-#### Installation
-
-##### PHP Archive
+## Installation
 
 Simply checkout this repository and copy the atpay.phar file out of the build directory.
 
-##### Composer
-
-Add atpay/tokens as a requirement in your composer file
+If you're using Composer, you can add the following to your composer.json file:
 
 ```json
   {
@@ -26,11 +32,8 @@ Add atpay/tokens as a requirement in your composer file
   }
 ```
 
-#### Email Token Generation
 
-Token Generation is simple and straight forward.  You simply need to instantiate the Tokenizer class with the appropriate keys and then pass all the necessary arguments to the email_token method.
-
-##### Initialization
+## Configuration
 
 The Tokenizer expects an array of keys on initialization:
 
@@ -41,72 +44,90 @@ The Tokenizer expects an array of keys on initialization:
     "atpay" => "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18="
   ]
 
-  $tokenizer = new \AtPay\Tokenizer($keys);
+  $AtPay_Token = new \AtPay\Token($keys);
 ```
 
 You can find all three keys on the API Settings section when logged into your @Pay Merchant Dashboard.
 
 * [@Pay Merchant Dashboard](https://dashboard.atpay.com)
 
+## Invoice Tokens
 
-##### The Tokenizer
+An **Invoice** token is ideal for sending invoices or for transactions that are
+only applicable to a single recipient (shopping cart abandonment, specialized
+offers, etc).
 
-  After the Tokenizer in instantiated, you can call on the email_token method. There are two arguments that can be passed.
+The following creates a token for a 20 dollar transaction specifically for the
+credit card @Pay has associated with 'test@example.com'. The item has a reference id of 'sku-123':
 
-  ```php
-      $tokenizer->invoice_token(TARGET, PARAMETERS);
-  ```
+```php
+  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
+```
+
+## Bulk Tokens
+
+Most merchants will be fine generating **Bulk Email Buttons** manually on the [@Pay Merchant
+Dashboard](https://dashboard.atpay.com), but for cases where you need to
+automate the generation of these messages, you can create **Bulk Tokens** without
+communicating directly with @Pay's servers.
+
+A **Bulk Token** is designed for large mailing lists. You can send the same token
+to any number of recipients. It's ideal for 'deal of the day' type offers, or
+general marketing.
+
+To create a **Bulk Token** for a 30 dollar blender:
+
+```php
+  $token = $AtPay_Token->Invoice(30.00, 'http://example.com/blender-30', 'blender-30');
+```
+
+If a recipient of this token attempts to purchase the product via email but
+hasn't configured a credit card, they'll receive a message asking them to
+complete their transaction at http://example.com/blender-30. You should
+integrate the @Pay JS SDK on that page if you want to allow them to create
+a two-click email transaction in the future. If a null value is passed for
+the registration url argument, an @Pay hosted registration form will be used.
+
+## General Token Attributes
+
+### Auth Only
+
+A **Token** will trigger a funds authorization and a funds capture
+simultaneously. If you're shipping a physical good, or for some other reason
+want to delay the capture, use the `auth_only!` method to adjust this behavior:
+
+```php
+  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
+  $token = $token->auth_only();
+```
+
+### Expiration
+
+A **Token** expires in 2 weeks unless otherwise specified. Trying to use the **Token**
+after the expiration results in a polite error message being sent to the sender.
+To adjust the expiration:
+
+```php
+  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
+  $token = $token->expires_in_seconds(60 * 60 * 24 * 7); // one week
+ ```
+
+### User Data
+
+**User Data** is a token attribute that contains anything that you wish to get back in @Pay’s
+response on processing the token. It has a limit of 2500 characters.
+
+```php
+  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
+  $token = $token->user_data("{foo => bar}");
 
 
+## Button Generation
 
-##### Required Parameters
-
-* type
-* partner_id
-* target
-* amount
-
-The **type** specifies the type of email token - either 'bulk' or 'invoice'.
-
-The **partner_id** is provided to you by @Pay.  
-
-The **target** is either an e-mail address (for invoice tokens), or a URL (for bulk tokens)
-
-The **amount** is the final sale amount as a floating point value, for example 12.37
+The PHP client does not currently support button generation. For more information,
 
 
-###### More On Token Types
-
-You can specify between email token types.
-
-***bulk*** - a universal token will look up a customers card information. If none, will redirect to url provided.
-
-***invoice*** - a single-user token will only work for a specified target.
-
-
-
-
-##### Optional Parameters
-
-* user_data
-* expiration
-
-The **user_data** parameter can be anything that you wish to get back in @Pay’s response on processing the token. It has a limit of 2500 characters.
-
-The **expiration** is the lifetime of the token. By default the token expires 1 day (86400 seconds) after being created.  A valid expiration value is a number of seconds since Unix Epoch.
-
-
-
-
-##### Target
-
-  The **target** is either an e-mail address (for invoice tokens), or a URL (for bulk tokens)
-  If a target is left blank for a ***bulk*** token, an @Pay hosted payment form will be generated and used.  
-
-
-
-
-##### Example
+## Example
 
 ```php
 <?php
@@ -118,19 +139,9 @@ The **expiration** is the lifetime of the token. By default the token expires 1 
     "atpay" => "xxxxx" # find at your @Pay Merchant dashboard under "API Settings"
   ];
 
-  $tokenizer = new \AtPay\Tokenizer($keys); # instantiate tokenizer with keys
+  $AtPay_Token = new \AtPay\Token($keys); # instantiate with keys
 
-  $target = "me@example.com"; # e-mail address for invoice token, URL for bulk token. If left nil, a bulk token will use an @Pay hosted payment form.
-
-  $params = [
-    "type" => "invoice", # change to 'bulk' for a one-to-many token
-    "partner_id" => 00000, # find at your @Pay Merchant dashboard under "API Settings"
-    "amount" =>  12.34, # any integer amount
-    "expiration" => 86400, # life span of token in seconds. Optional. Default: 86400 (24 hours)
-    "user_data" => "{'sku' => 'abc-123'}" # any string you wish to get back in @Pay's response. Optional. Limit: 2500 Characters
-  ];
-
-  $email_token = $tokenizer->invoice_token($target, $params); # builds and returns invoice token with target and params passed
+  $token = $AtPay_Token->Invoice(20.00, 'text@example.com', 'sku-123');
 
   if ($email_token) {
     $from = "test@example.com";
@@ -144,8 +155,6 @@ The **expiration** is the lifetime of the token. By default the token expires 1 
   }
 ?>
 ```
-
-
 
 ## License
 

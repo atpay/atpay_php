@@ -20,7 +20,7 @@
 
     public function auth_only()
     {
-      $this->version = "2~";
+      $this->version = base64_encode($this->packer->big_endian_long(2))."~";
     }
 
     public function expires_in_seconds($seconds)

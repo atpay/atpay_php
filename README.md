@@ -114,7 +114,7 @@ To adjust the expiration:
 
 ### User Data
 
-**User Data** is a token attribute that contains anything that you wish to get back in @Pay’s
+**User Data** is a token attribute that contains any string that you wish to get back in @Pay’s
 response on processing the token. It has a limit of 2500 characters.
 
 ```php

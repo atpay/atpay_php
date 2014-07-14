@@ -125,7 +125,7 @@ response on processing the token. It has a limit of 2500 characters.
 
 ## Button Generation
 
-The PHP client does not currently support button generation. For more information,
+The PHP client does not currently support button generation.
 
 
 ## Example

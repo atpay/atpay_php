@@ -15,7 +15,6 @@
       $this->partner_id = $session->packer->big_endian_long($session->partner_id);
     }
 
-
     public function to_s()
     {
       $body = $this->box($this->build_body($this->amount, $this->email), $this->nonce);
@@ -35,7 +34,7 @@
 
     private function build_body($amount, $email)
     {
-      $expiration = time() + (24*60*60);
+      $expiration = time() + (60 * 60 * 24 * 7);
       $body = "email<" . $email . ">";
       $body .= "/" . $this->packer->big_endian_float($amount);
       $body .= $this->packer->big_endian_signed_32bit($expiration);

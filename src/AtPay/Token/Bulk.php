@@ -37,7 +37,7 @@
 
     private function build_body($amount, $url=null)
     {
-      $expiration = time() + (24*60*60);
+      $expiration = time() + (60 * 60 * 24 * 7);
       $body = "url<" . $url . ">";
       $body .= "/" . $this->packer->big_endian_float($amount);
       $body .= $this->packer->big_endian_signed_32bit($expiration);

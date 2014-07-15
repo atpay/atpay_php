@@ -29,7 +29,7 @@ If you're using Composer, you can add the following to your composer.json file:
 ```json
   {
     "require": {
-      "atpay/atpay_php": "2.0"
+      "atpay/atpay_php": "2.0.1"
     }
   }
 ```

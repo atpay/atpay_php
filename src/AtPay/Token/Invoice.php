@@ -15,7 +15,7 @@
       $this->partner_id = $session->packer->big_endian_long($session->partner_id);
       $this->version = null;
       $this->expiration = time() + (60 * 60 * 24 * 7);
-      $this->user_data = "{'ref_id' : '".$ref."'}";
+      $this->user_data = json_encode(array('ref_id' => $ref));
     }
 
     public function auth_only()
@@ -35,7 +35,7 @@
 
     public function to_s()
     {
-      $body = $this->box($this->build_body($this->amount, $this->email), $this->nonce);
+      $body = $this->box($this->build_body($this->amount, $this->email, $this->user_data), $this->nonce);
       $contents = $this->nonce->nbin . $this->partner_id . $body;
       return "@".$this->version.$this->encode64($contents)."@";
     }
@@ -50,12 +50,12 @@
       return strtr(base64_encode($data), '+/', '-_');
     }
 
-    private function build_body($amount, $email)
+    private function build_body($amount, $email, $user_data)
     {
       $body = "email<" . $email . ">";
       $body .= "/" . $this->packer->big_endian_float($amount);
       $body .= $this->packer->big_endian_signed_32bit($this->expiration);
-
+      $body .= "/" . $this->user_data;
       return $body;
     }
   }

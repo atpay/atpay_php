@@ -15,7 +15,7 @@
       $this->partner_id = $session->packer->big_endian_long($session->partner_id);
       $this->version = null;
       $this->expiration = time() + (60 * 60 * 24 * 7);
-      $this->user_data = $ref;
+      $this->user_data = json_encode(array('ref_id' => $ref));
     }
 
     public function auth_only()

@@ -47,6 +47,7 @@ Then require `atpay_php` in your application:
 ```
 
 ```
+$ curl -s http://getcomposer.org/installer | php
 $ php composer.phar install
 ```
 

@@ -25,15 +25,13 @@ receive a receipt or further instructions.
 ### PHP Archive
 
 ```bash
-  $ curl -O -L http://github.com/atpay/atpay_php/releases/download/2.0.1/atpay_php.phar
+$ curl -O -L http://github.com/atpay/atpay_php/releases/download/2.0.1/atpay_php.phar
 ```
 
 Then require `atpay_php` in your application:
 
 ```php
-<?php
-  require_once 'atpay_php.phar';        # include php archive.
-?>
+require_once 'atpay_php.phar';        # include php archive.
 ```
 
 ### Composer
@@ -52,9 +50,7 @@ $ php composer.phar install
 ```
 
 ```php
-<?php
-  require 'vendor/autoload.php';
-?>
+require 'vendor/autoload.php';
 ```
 
 ## Configuration
@@ -113,9 +109,9 @@ simultaneously. If you're shipping a physical good, or for some other reason
 want to delay the capture, use the `auth_only!` method to adjust this behavior:
 
 ```php
-  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
-  $invoice_token->auth_only();
-  echo $invoice_token->to_s();
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+$invoice_token->auth_only();
+echo $invoice_token->to_s();
 ```
 
 ### Expiration
@@ -125,9 +121,9 @@ after the expiration results in a polite error message being sent to the sender.
 To adjust the expiration:
 
 ```php
-  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
-  $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
-  echo $invoice_token->to_s();
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+$invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
+echo $invoice_token->to_s();
  ```
 
 ### User Data
@@ -136,9 +132,9 @@ To adjust the expiration:
 response on processing the token. It has a limit of 2500 characters.
 
 ```php
-  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
-  $invoice_token->user_data("{foo => bar}");
-  echo $invoice_token->to_s();
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+$invoice_token->user_data("{foo => bar}");
+echo $invoice_token->to_s();
 ```
 
 

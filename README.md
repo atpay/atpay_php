@@ -22,18 +22,39 @@ receive a receipt or further instructions.
 
 *This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.*
 
-Simply checkout this repository and copy the atpay.phar file out of the build directory.
+### PHP Archive
 
-If you're using Composer, you can add the following to your composer.json file:
-
-```json
-  {
-    "require": {
-      "atpay/atpay_php": "2.0.1"
-    }
-  }
+```bash
+  $ curl -O -L http://github.com/atpay/atpay_php/releases/download/2.0.1/atpay_php.phar
 ```
 
+Then require `atpay_php` in your application:
+
+```php
+<?php
+  require_once 'atpay_php.phar';        # include php archive.
+?>
+```
+
+### Composer
+
+```json
+{
+  "require": {
+    "atpay/atpay_php": "2.0.1"
+  }
+}
+```
+
+```
+$ php composer.phar install
+```
+
+```php
+<?php
+  require 'vendor/autoload.php';
+?>
+```
 
 ## Configuration
 
@@ -129,7 +150,8 @@ The PHP client does not currently support button generation.
 ```php
 <?php
   // Include @Pay's PHP SDK
-  require_once 'atpay.phar'; # include php archive. Require "atpay/tokens": "1.0" if using Composer to manage packages.
+  require_once 'atpay_php.phar';        # include php archive.
+  //require 'vendor/autoload.php';      # when using composer.
 
   // Configure with your keys:
   $partner_id       = '';

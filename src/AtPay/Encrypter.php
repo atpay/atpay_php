@@ -1,5 +1,5 @@
 <?php
-  namespace AtPay\Tokens;
+  namespace AtPay;
 
   /**
   * Encrypter encrypts the data given to it.

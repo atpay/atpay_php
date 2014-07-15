@@ -19,4 +19,25 @@
   if(!function_exists("atpay_loader")) {
     find_loader();
   }
+
+  if(!class_exists("MockBox")){
+    class MockBox
+    {
+      public function encrypt($data, $nonce){
+        return $data;
+      }
+    }
+  }
+
+  if(!class_exists("MockNonce")){
+    class MockNonce
+    {
+      public $nbin;
+
+      function __construct($nonce)
+      {
+        $this->nbin = $nonce;
+      }
+    }
+  }
 ?>

@@ -14,7 +14,7 @@
 
       $noncer = new \sodium\nonce();
       $nonce = $noncer->next();
-      $encrypter = new \AtPay\Tokens\Encrypter($sec_key, $pub_key, $atpay_key);
+      $encrypter = new \AtPay\Encrypter($sec_key, $pub_key, $atpay_key);
 
       $this->assertEquals($encrypter->encrypt("Skyler", $nonce), $this->direct_sodium($sec_key, $pub_key, $atpay_key, $nonce, "Skyler"));
     }

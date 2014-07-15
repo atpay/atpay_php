@@ -1,22 +1,30 @@
-# AtPay Token Generator
+# @Pay PHP Bindings
 
-This is the native PHP implementation of the AtPay Token Generator.
+PHP implementation of @Pay's [**Token Protocol**](http://developer.atpay.com/v3/tokens/protocol/). See the [@Pay Developer Site](http://developer.atpay.com/)
+for additional information.
 
-## Requirements
+A **Token** is a value that contains information about a financial transaction (an invoice
+or a product sales offer, for instance). When a **Token** is sent to
+`transaction@processor.atpay.com` from an address associated with a **Payment Method**,
+it will create a **Transaction**.
 
-* This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.
+There are two classes of **Token** @Pay processes - the **Invoice Token**, which should
+be used for sending invoices or transactions applicable to a single
+recipient, and the **Bulk Token**, which is suitable for email marketing lists.
 
-## Usage
+An **Email Button** is a link embedded in an email message. When activated, this link
+opens a new outgoing email with a recipient, subject, and message body
+prefilled. By default this email contains one of the two token types. Clicking
+'Send' delivers the email to @Pay and triggers **Transaction** processing. The sender will
+receive a receipt or further instructions.
 
-#### Installation
+## Installation
 
-##### PHP Archive
+*This library requires that the [PHP Sodium](https://github.com/alethia7/php-sodium) Extension be installed.*
 
 Simply checkout this repository and copy the atpay.phar file out of the build directory.
 
-##### Composer
-
-Add atpay/tokens as a requirement in your composer file
+If you're using Composer, you can add the following to your composer.json file:
 
 ```json
   {
@@ -26,144 +34,116 @@ Add atpay/tokens as a requirement in your composer file
   }
 ```
 
-#### Token Generation
 
-Token Generation is simple and straight forward.  You simply need to instantiate the Tokenizer class with the appropriate keys and then pass all the necessary parameters to the site_token method.
+## Configuration
 
-##### Initialization
-
-The Tokenizer expects an array of keys on initialization:
+All Token generation functions require a Session object. Just grab your API credentials from https://dashboard.atpay.com/ (API Settings):
 
 ```php
-  $keys = [
-    "private" => "EpBic6szxPJVbwlW3VAfEzMZSdWdA04t2Nm6yRQFpf0=",
-    "public" => "jZutz9bU6FWIIcRn/12zneT74yWCCuvN5/Su5LvP+3o=",
-    "atpay" => "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18="
-  ]
-
-  $tokenizer = new \AtPay\Tokenizer($keys);
+    $session = new \AtPay\Session(partner_id, public_key, private_key);
 ```
 
-The "private" key is provided to you by AtPay.
-The "public" key is also provided to you by AtPay.
-The "atpay" key is the AtPay public key specific to the environment you are talking to.
+## Invoice Tokens
 
-If you need to lookup or re-generate your keys you can do so in your merchant dashboard:
+An **Invoice** token is ideal for sending invoices or for transactions that are
+only applicable to a single recipient (shopping cart abandonment, specialized
+offers, etc).
 
-* [@Pay Dashboard](https://dashboard.atpay.com)
-
-
-##### Site Tokens
-
-To build a site token you need to provide information about the transaction as well as information about the client browser that is initiating the transaction.
-
-###### Transaction Data
-
-As far as transaction details go there are three required parameters:
-
-* partner_id
-* card
-* amount
-
-These are probably what you would expect for a financial transaction: a recipient, a payment source and an amount.  The partner_id is provided to you by @Pay.  The card is represented by a token you receive upon successful [registration](http://developer.atpay.com/v1/guides/registering-cards/).  The amount is the final sale amount as a floating point value, for example 12.37
-
-###### Client Data
-
-A Site Token also requires information about the Client that is making the transaction request. The token needs to contain four pieces of data that pretain to the the requesting Client:  
-
-* User Agent String
-* Accept Language
-* Accept Characters
-* Remote IP Address
-
-The User Agent string, the Accept Language header value, the Accept Characters header value and the Remote IP Address are used to verify that the Browser which requested the Token is the same Browser presenting the Token to @Pay.  These values may be passed to the site_token method in the $params array or the will be pulled from $_SERVER if not specified.
-
-###### Extras
-
-There is also an optional expiration that can be set on the token.  By default the token expires 60 seconds after being created.  A valid expiration value is a number of seconds since Unix Epoch.
-
-###### Examples
+The following creates a token for a 20 dollar transaction specifically for the
+credit card @Pay has associated with 'test@example.com'. The item has a reference id of 'sku-123':
 
 ```php
-  $tokenizer = new \AtPay\Tokenizer($keys);
-
-  $card = "OTAzYzUzNWVjOVKhtOalUQA=";
-
-  $params = [
-    "partner_id" => 0,
-    "amount" => 12.62,
-    "expiration" => time() + 60,
-    "headers" => [
-      "user_agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36",
-      "accept_lang" => "en-US,en;q=0.8",
-      "accept_chars" => ""
-    ],
-    "ip" => "173.163.242.11"
-  ];
-
-  $token = $tokenizer->site_token($card, $params);
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123', 'Crispy iPhone Gadget');
+  echo $invoice_token->to_s();
 ```
 
-If you wish to use the default for any of the optional values omit the key/value pair completely from the $params array.
+## Bulk Tokens
 
+Most merchants will be fine generating **Bulk Email Buttons** manually on the [@Pay Merchant
+Dashboard](https://dashboard.atpay.com), but for cases where you need to
+automate the generation of these messages, you can create **Bulk Tokens** without
+communicating directly with @Pay's servers.
 
-##### Email Tokens
+A **Bulk Token** is designed for large mailing lists. You can send the same token
+to any number of recipients. It's ideal for 'deal of the day' type offers, or
+general marketing.
 
-To build an email token you need to provide information about the transaction.
-
-###### Transaction Data
-
-As far as transaction details go there are three required parameters:
-
-* partner_id
-* target
-* amount
-
-These are probably what you would expect for a financial transaction: a recipient, a payment source and an amount.  The partner_id is provided to you by @Pay.  The card is represented by a token you receive upon successful [registration](http://developer.atpay.com/v1/guides/registering-cards/).  The amount is the final sale amount as a floating point value, for example 12.37
-
-###### Email Token Target
-
-You can specify between email token types.
-
-* url - a universal token that will look up card information by the "from" address. If none, will redirect to url provided.
-* card (default) - card token
-* member - UUID of @pay member
-* email - member email
-
-###### Extras
-
-There is also an optional expiration that can be set on the token.  By default the token expires 60 seconds after being created.  A valid expiration value is a number of seconds since Unix Epoch.
-
-###### User Data
-
-User Data can be anything that you wish to get back in @Pay’s response on processing the token. It has a limit of 2500 characters.
-
-
-###### Examples
+To create a **Bulk Token** for a 30 dollar blender:
 
 ```php
- $keys = [
-    "private" => "KS8uFpXyBji3KbKeGwqIo4L5m6HaTJnf2SM40j2jTAY=",
-    "public" => "rjkAFcjdiyZjsFNClu8dEKXMI3Mvar+iBuezjqYRqEs=",
-    "atpay" => "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18="
-  ];
-
-  $tokenizer = new \AtPay\Tokenizer($keys);
-
-  $url = "http://example.com/signup";
-
-  $params = [
-    "type" => "url",
-    "partner_id" => 8254,
-    "amount" => 12.62
-  ];
-
-  $email_token = $tokenizer->email_token($url, $params);
+  $bulk_token = new \AtPay\Token\Bulk($session, 30, 'http://example.com/blender-30', 'sku-123', 'Best Blender');
+  echo $bulk_token->to_s();
 ```
 
-If you wish to use the default for any of the optional values omit the key/value pair completely from the $params array.
+If a recipient of this token attempts to purchase the product via email but
+hasn't configured a credit card, they'll receive a message asking them to
+complete their transaction at http://example.com/blender-30. You should
+integrate the @Pay JS SDK on that page if you want to allow them to create
+a two-click email transaction in the future. If a null value is passed for
+the registration url argument, an @Pay hosted registration form will be used.
+
+## General Token Attributes
+
+### Auth Only
+
+A **Token** will trigger a funds authorization and a funds capture
+simultaneously. If you're shipping a physical good, or for some other reason
+want to delay the capture, use the `auth_only!` method to adjust this behavior:
+
+```php
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $invoice_token->auth_only();
+  echo $invoice_token->to_s();
+```
+
+### Expiration
+
+A **Token** expires in 2 weeks unless otherwise specified. Trying to use the **Token**
+after the expiration results in a polite error message being sent to the sender.
+To adjust the expiration:
+
+```php
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
+  echo $invoice_token->to_s();
+ ```
+
+### User Data
+
+**User Data** is a token attribute that contains any string that you wish to get back in @Pay’s
+response on processing the token. It has a limit of 2500 characters.
+
+```php
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $invoice_token->user_data("{foo => bar}");
+  echo $invoice_token->to_s();
+```
 
 
-## License
+## Button Generation
 
-#### LGPL
+The PHP client does not currently support button generation.
+
+## Example
+
+```php
+<?php
+  require_once 'atpay.phar'; # include php archive. Require "atpay/tokens": "1.0" if using Composer to manage packages.
+
+  $session = new \AtPay\Session(partner_id, public_key, private_key);
+
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $token = $invoice_token->to_s();
+
+  if ($token) {
+    $from = "test@example.com";
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= 'From: '.$from."\r\n";
+    $subject = "Email Offer";
+    $message = '<a href="mailto:transactions@.atpay.com?subject=PHP Token&body='.$token.'">Click to Buy</a>'; # creates a mailto with generated invoice token that will send to @Pay to process
+    mail($target,$subject,$message,$headers); # send email to target. Adjust if invoice token
+    echo "Tokenized link emailed.";
+  }
+?>
+```

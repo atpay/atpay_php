@@ -8,8 +8,10 @@
 
   class Session{
 
-    function __construct($partner_id, $private, $public, $atpay = "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18=")
+    function __construct($partner_id, $public, $private, $atpay=null)
     {
+
+      $atpay = isset($atpay) ? $atpay : "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18=";
       $this->encrypter = new Encrypter($private, $public, $atpay);
       $this->packer = new Packer();
       $this->noncer = new \sodium\nonce();

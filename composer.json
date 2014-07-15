@@ -1,14 +1,26 @@
 {
-  "name": "atpay/tokens",
+  "name": "atpay/atpay_php",
   "type": "library",
-  "description": "AtPay Payment Token Generator",
-  "keywords": ["atpay", "AtPay", "Atpay"],
-  "homepage": "https://github.com/atpay/atpay_php",
+  "description": "AtPay API bindings for PHP",
+  "keywords": ["atpay", "payment processing", "api"],
+  "homepage": "https://developer.atpay.com",
   "license": "LGPL",
   "authors": [
     {
       "name": "Glen Holcomb",
       "email": "glen@atpay.com",
+      "homepage": "https://atpay.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Isaiah Baca",
+      "email": "isaiah@atpay.com",
+      "homepage": "https://atpay.com",
+      "role": "Developer"
+    },
+    {
+      "name": "James Kassemi",
+      "email": "james@atpay.com",
       "homepage": "https://atpay.com",
       "role": "Developer"
     }

@@ -68,10 +68,10 @@ only applicable to a single recipient (shopping cart abandonment, specialized
 offers, etc).
 
 The following creates a token for a 20 dollar transaction specifically for the
-credit card @Pay has associated with 'test@example.com'. The item has a reference id of 'sku-123':
+credit card @Pay has associated with 'customer@example.com'. The item has a reference id of 'sku-123':
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123', 'Crispy iPhone Gadget');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123', 'Crispy iPhone Gadget');
 echo $invoice_token->to_s();
 ```
 
@@ -109,7 +109,7 @@ simultaneously. If you're shipping a physical good, or for some other reason
 want to delay the capture, use the `auth_only!` method to adjust this behavior:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123');
 $invoice_token->auth_only();
 echo $invoice_token->to_s();
 ```
@@ -121,7 +121,7 @@ after the expiration results in a polite error message being sent to the sender.
 To adjust the expiration:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123');
 $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
 echo $invoice_token->to_s();
  ```
@@ -132,7 +132,7 @@ echo $invoice_token->to_s();
 response on processing the token. It has a limit of 2500 characters.
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123');
 $invoice_token->user_data("{foo => bar}");
 echo $invoice_token->to_s();
 ```

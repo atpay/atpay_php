@@ -53,7 +53,7 @@ The following creates a token for a 20 dollar transaction specifically for the
 credit card @Pay has associated with 'test@example.com'. The item has a reference id of 'sku-123':
 
 ```php
-  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123');
+  $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'sku-123', 'Crispy iPhone Gadget');
   echo $invoice_token->to_s();
 ```
 
@@ -71,7 +71,7 @@ general marketing.
 To create a **Bulk Token** for a 30 dollar blender:
 
 ```php
-  $bulk_token = new \AtPay\Token\Bulk($session, 30, 'http://example.com/blender-30', 'sku-123');
+  $bulk_token = new \AtPay\Token\Bulk($session, 30, 'http://example.com/blender-30', 'sku-123', 'Best Blender');
   echo $bulk_token->to_s();
 ```
 

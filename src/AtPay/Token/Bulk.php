@@ -4,7 +4,7 @@
   class Bulk
   {
 
-    function __construct($session, $amount, $url=null, $ref)
+    function __construct($session, $amount, $url=null, $ref, $item_name='')
     {
       $this->packer = $session->packer;
       $this->encrypter = $session->encrypter;
@@ -15,7 +15,7 @@
       $this->partner_id = $session->packer->big_endian_long($session->partner_id);
       $this->version = null;
       $this->expiration = time() + (60 * 60 * 24 * 7);
-      $this->user_data = json_encode(array('ref_id' => $ref));
+      $this->user_data = json_encode(array('ref_id' => $ref, 'item_name' => $item_name));
     }
 
     public function auth_only()

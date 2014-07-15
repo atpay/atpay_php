@@ -17,7 +17,7 @@
       $invoice_token->encrypter = new MockBox();
       $invoice_token->expiration = 0 + (60 * 60 * 24 * 7);
 
-      $this->assertEquals($invoice_token->to_s(), '@Y2JhAAAAAAAAAAFlbWFpbDx0ZXN0QGV4YW1wbGUuY29tPi9BoAAAAAk6gC97InJlZl9pZCI6InNrdS0xMjMifQ==@');
+      $this->assertEquals($invoice_token->to_s(), '@Y2JhAAAAAAAAAAFlbWFpbDx0ZXN0QGV4YW1wbGUuY29tPi9BoAAAAAk6gC97InJlZl9pZCI6InNrdS0xMjMiLCJpdGVtX25hbWUiOiIifQ==@');
     }
   }
 ?>

@@ -17,7 +17,7 @@
       $bulk_token->encrypter = new MockBox();
       $bulk_token->expiration = 0 + (60 * 60 * 24 * 7);
 
-      $this->assertEquals($bulk_token->to_s(), '@Y2JhAAAAAAAAAAF1cmw8aHR0cDovL2V4YW1wbGUuY29tL2JsZW5kZXItMzA-L0HwAAAACTqAL3sicmVmX2lkIjoic2t1LTEyMyJ9@');
+      $this->assertEquals($bulk_token->to_s(), '@Y2JhAAAAAAAAAAF1cmw8aHR0cDovL2V4YW1wbGUuY29tL2JsZW5kZXItMzA-L0HwAAAACTqAL3sicmVmX2lkIjoic2t1LTEyMyIsIml0ZW1fbmFtZSI6IiJ9@');
     }
   }
 ?>

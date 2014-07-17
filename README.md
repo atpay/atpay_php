@@ -154,9 +154,8 @@ The PHP client does not currently support button generation.
   $partner_id       = '';
   $public_key       = '';
   $private_key      = '';
-  $atpay_public_key = 'QZuSjGhUz2DKEvjule1uRuW+N6vCOoMuR2PgCl57vB0=';
 
-  $session = new \AtPay\Session($partner_id, $public_key, $private_key, $atpay_public_key);
+  $session = new \AtPay\Session($partner_id, $public_key, $private_key);
 
   // Generate a new Invoice Token for $150
   $total_price    = 150;

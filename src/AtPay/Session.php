@@ -11,7 +11,7 @@
     function __construct($partner_id, $public, $private, $atpay=null)
     {
 
-      $atpay = isset($atpay) ? $atpay : "x3iJge6NCMx9cYqxoJHmFgUryVyXqCwapGapFURYh18=";
+      $atpay = isset($atpay) ? $atpay : "QZuSjGhUz2DKEvjule1uRuW+N6vCOoMuR2PgCl57vB0=";
       $this->encrypter = new Encrypter($private, $public, $atpay);
       $this->packer = new Packer();
       $this->noncer = new \sodium\nonce();

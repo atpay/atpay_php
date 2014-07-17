@@ -25,7 +25,7 @@ receive a receipt or further instructions.
 ### PHP Archive
 
 ```bash
-$ curl -O -L http://github.com/atpay/atpay_php/releases/download/2.0.1/atpay_php.phar
+$ curl -O -L http://github.com/atpay/atpay_php/releases/download/2.0.2/atpay_php.phar
 ```
 
 Then require `atpay_php` in your application:
@@ -39,7 +39,7 @@ require_once 'atpay_php.phar';        # include php archive.
 ```json
 {
   "require": {
-    "atpay/atpay_php": "2.0.1"
+    "atpay/atpay_php": "2.0.2"
   }
 }
 ```

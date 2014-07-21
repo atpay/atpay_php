@@ -4,15 +4,17 @@
   class Core
   {
 
-    function __construct($session, $amount, $ref, $item_name)
+    function __construct($session, $amount)
     {
       $this->session = $session;
       $this->amount = $amount;
-      $this->user_data = json_encode(array('ref_id' => $ref, 'item_name' => $item_name));
 
       $this->expires = time() + (60 * 60 * 24 * 7);
       $this->version = null;
       $this->url = null;
+      $this->user_data = array(
+        "custom_fields" => array();
+      );
 
     }
 
@@ -29,6 +31,14 @@
     public function url($url)
     {
       $this->url = $url;
+    }
+
+    public function custom_field($name, $required = true)
+    {
+      $this->user_data[custom_fields] << array(
+        "name" => $name,
+        "required" => $required
+      );
     }
 
     public function user_data($string)

@@ -4,10 +4,10 @@
   class Invoice extends Core
   {
 
-    function __construct($session, $amount, $target, $ref, $item_name='')
+    function __construct($session, $amount, $target)
     {
       $this->target = $target;
-      parent::__construct($session, $amount, $ref, $item_name);
+      parent::__construct($session, $amount);
     }
 
   }

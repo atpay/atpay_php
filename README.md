@@ -68,10 +68,10 @@ only applicable to a single recipient (shopping cart abandonment, specialized
 offers, etc).
 
 The following creates a token for a 20 dollar transaction specifically for the
-credit card @Pay has associated with 'customer@example.com'. The item has a reference id of 'sku-123':
+credit card @Pay has associated with 'customer@example.com'.
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123', 'Crispy iPhone Gadget');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
 echo $invoice_token->to_s();
 ```
 
@@ -89,7 +89,7 @@ general marketing.
 To create a **Bulk Token** for a 30 dollar blender:
 
 ```php
-$bulk_token = new \AtPay\Token\Bulk($session, 30, 'sku-123', 'Best Blender');
+$bulk_token = new \AtPay\Token\Bulk($session, 30);
 echo $bulk_token->to_s();
 ```
 
@@ -108,7 +108,7 @@ simultaneously. If you're shipping a physical good, or for some other reason
 want to delay the capture, use the `auth_only!` method to adjust this behavior:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
 $invoice_token->auth_only();
 echo $invoice_token->to_s();
 ```
@@ -120,7 +120,7 @@ after the expiration results in a polite error message being sent to the sender.
 To adjust the expiration:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
 $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
 echo $invoice_token->to_s();
  ```
@@ -136,7 +136,7 @@ your own site (Enable @Pay Card tokenization on your own page with the
 URL:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'invoice-123');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
 $invoice_token->url('https://example.com/invoices/123');
 echo $invoice_token->to_s();
  ```
@@ -147,7 +147,7 @@ echo $invoice_token->to_s();
 response on processing the token. It has a limit of 2500 characters.
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123');
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
 $invoice_token->user_data("{foo => bar}");
 echo $invoice_token->to_s();
 ```
@@ -175,10 +175,9 @@ The PHP client does not currently support button generation.
   // Generate a new Invoice Token for $150
   $total_price    = 150;
   $customer_email = "customer@example.com";
-  $my_invoice_id  = "invoice-123";
-  $invoice_name   = "Your Cart";
 
-  $invoice_token = new \AtPay\Token\Invoice($session, $total_price, $customer_email, $my_invoice_id, $invoice_name);
+
+  $invoice_token = new \AtPay\Token\Invoice($session, $total_price, $customer_email);
   $token         = $invoice_token->to_s();
 
   // Send an Email to the Customer

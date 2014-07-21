@@ -184,6 +184,18 @@ $invoice_token->set_item_quantity = 3      # The token is now auth-only!
 echo $invoice_token->to_s();
  ```
 
+### Collect Address Details
+
+Needs details
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token->collect_address = "shipping"      # nonw, shipping, billing_and_shipping
+echo $invoice_token->to_s();
+ ```
+
+
+
 ### User Data
 
 **User Data** is a token attribute that contains any string that you wish to get back in @Pay’s

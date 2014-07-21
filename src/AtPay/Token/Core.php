@@ -50,6 +50,16 @@
       $this->user_data["details"] = $string;
     }
 
+    public function collect_address($address){
+        if($address == "none" || !in_array($address, array('none','ship','shipping','shipping_only','all'))) {
+            $this->user_data["address"] = "none";
+        }else if(in_array($address, array('shipping','ship','shipping_only'))) {
+            $this->user_data["address"] = "ship";
+        }else if(in_array($address, array('both','all', "billing_and_shipping"))){
+          $this->user_data["address"] = "all";
+        }
+    }
+
     public function request_custom_data($name, $required = false)
     {
       $this->user_data['custom_fields'] << array(

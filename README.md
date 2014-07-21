@@ -153,46 +153,58 @@ $invoice_token->request_custom_data('gift_message', true); //Input name , requir
 echo $invoice_token->to_s();
  ```
 
-### Item Name
+#### Item Name
 
-Needs details
+You can set an **item name** that will display on the **Hosted Payment Capture Page**
 
 ```php
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
-$invoice_token->name = "A Cool Offer";      # The token is now auth-only!
+$invoice_token->name("A Cool Offer");
 echo $invoice_token->to_s();
  ```
 
-### Item Details
+#### Item Details
 
-Needs details
-
+You can set an **item details** that will display on the **Hosted Payment Capture Page**
 
 ```php
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
-$invoice_token->set_item_details = "Lorem Ipsum ..."      # The token is now auth-only!
+$invoice_token->set_item_details("Lorem Ipsum ...");
+echo $invoice_token->to_s();
+ ```
+
+#### Collect Address Details
+
+You can specify if what what type of addresses you would like to request on the  **Hosted Payment Capture Page**.
+You can require none, shipping_only or billing_and_shipping
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token->collect_address("shipping");     // none, shipping_only, billing_and_shipping
 echo $invoice_token->to_s();
  ```
 
 ### Set Item Quantity
 
-Needs details
+If you are using @Pay's webhook for inventory control, you can specify an initial quantity for the offer you are creating.
 
 ```php
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
-$invoice_token->set_item_quantity = 3      # The token is now auth-only!
+$invoice_token->set_item_quantity(3);
 echo $invoice_token->to_s();
  ```
 
-### Collect Address Details
+### Fulfillment Time
 
-Needs details
+**Transaction Details** from @Pay may include an **Estimated Fulfillment Time**.
+@Pay expects **Auth Only** transactions when fulfillment is required.
+A Transaction should be Captured only when fulfillment is completed.
 
 ```php
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
-$invoice_token->collect_address = "shipping"      # nonw, shipping, billing_and_shipping
-echo $invoice_token->to_s();
- ```
+$token_token->estimated_fulfillment_days(3)      # The token is now auth-only!
+email(token.to_s, receipient_address)
+```
 
 ### Custom User Data
 

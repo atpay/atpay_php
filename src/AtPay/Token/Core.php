@@ -13,9 +13,8 @@
       $this->version = null;
       $this->url = null;
       $this->user_data = array(
-        "custom_fields" => array();
+        'custom_fields' => array()
       );
-
     }
 
     public function auth_only()
@@ -33,13 +32,6 @@
       $this->url = $url;
     }
 
-
-    public function url($url)
-    {
-      $this->url = $url;
-    }
-
-
     public function name($name)
     {
       $this->user_data["item_name"] = $name;
@@ -50,9 +42,17 @@
       $this->user_data["fulfillment"] = $days;
     }
 
+    public function set_item_quantity($qty){
+      $this->user_data["quantity"] = $qty;
+    }
+
+    public function set_item_details($string){
+      $this->user_data["details"] = $string;
+    }
+
     public function request_custom_data($name, $required = false)
     {
-      $this->user_data[custom_fields] << array(
+      $this->user_data['custom_fields'] << array(
         "name" => $name,
         "required" => $required
       );

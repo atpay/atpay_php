@@ -52,7 +52,7 @@
 
       $body .= "/" . $this->packer->big_endian_float($this->amount);
       $body .= $this->packer->big_endian_signed_32bit($this->expires);
-      $body .= "/" . $this->user_data;
+      $body .= "/" . json_encode($this->user_data);
 
       return $body;
     }
@@ -61,6 +61,6 @@
     {
       return strtr(base64_encode($data), '+/', '-_');
     }
-    
+
   }
 ?>

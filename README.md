@@ -153,16 +153,34 @@ $invoice_token->request_custom_data('gift_message', true); //Input name , requir
 echo $invoice_token->to_s();
  ```
 
-### Fulfillment Time
+### Item Name
 
-**Transaction Details** from @Pay may include an **Estimated Fulfillment Time**.
-@Pay expects **Auth Only** transactions when fulfillment is required.
-A Transaction should be Captured only when fulfillment is completed.
+Needs details
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token->name = "A Cool Offer";      # The token is now auth-only!
+echo $invoice_token->to_s();
+ ```
+
+### Item Details
+
+Needs details
 
 
 ```php
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
-$invoice_token->estimated_fulfillment_days = 3      # The token is now auth-only!
+$invoice_token->set_item_details = "Lorem Ipsum ..."      # The token is now auth-only!
+echo $invoice_token->to_s();
+ ```
+
+### Set Item Quantity
+
+Needs details
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token->set_item_quantity = 3      # The token is now auth-only!
 echo $invoice_token->to_s();
  ```
 

@@ -68,9 +68,9 @@
       );
     }
 
-    public function user_data($string)
+    public function custom_user_data($string)
     {
-      $this->user_data = $string;
+      $this->user_data["custom_user_data"] = $string;
     }
 
     public function to_s()

@@ -196,14 +196,14 @@ echo $invoice_token->to_s();
 
 
 
-### User Data
+### Custom User Data
 
-**User Data** is a token attribute that contains any string that you wish to get back in @Pay’s
+**Custom User Data** is a token attribute that contains any string that you wish to get back in @Pay’s
 response on processing the token. It has a limit of 2500 characters.
 
 ```php
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
-$invoice_token->user_data("{foo => bar}");
+$invoice_token->custom_user_data("{foo => bar}");
 echo $invoice_token->to_s();
 ```
 

@@ -33,7 +33,24 @@
       $this->url = $url;
     }
 
-    public function custom_field($name, $required = true)
+
+    public function url($url)
+    {
+      $this->url = $url;
+    }
+
+
+    public function name($name)
+    {
+      $this->user_data["item_name"] = $name;
+    }
+
+    public function estimated_fulfillment_days($days){
+      $this->auth_only();
+      $this->user_data["fulfillment"] = $days;
+    }
+
+    public function request_custom_data($name, $required = false)
     {
       $this->user_data[custom_fields] << array(
         "name" => $name,

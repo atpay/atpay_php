@@ -141,6 +141,31 @@ $invoice_token->url('https://example.com/invoices/123');
 echo $invoice_token->to_s();
  ```
 
+#### Requesting Custom Information on a Hosted Signup Page
+
+If you opt to use the **Hosted Payment Capture Page** (by not specifying a URL above), you
+can request further information from your Customer during the purchase on the
+Web. For instance, the following requests an optional Gift Message:
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token->request_custom_data('gift_message', true); //Input name , required (defaults to false)
+echo $invoice_token->to_s();
+ ```
+
+### Fulfillment Time
+
+**Transaction Details** from @Pay may include an **Estimated Fulfillment Time**.
+@Pay expects **Auth Only** transactions when fulfillment is required.
+A Transaction should be Captured only when fulfillment is completed.
+
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token->estimated_fulfillment_days = 3      # The token is now auth-only!
+echo $invoice_token->to_s();
+ ```
+
 ### User Data
 
 **User Data** is a token attribute that contains any string that you wish to get back in @Pay’s

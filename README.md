@@ -89,16 +89,9 @@ general marketing.
 To create a **Bulk Token** for a 30 dollar blender:
 
 ```php
-$bulk_token = new \AtPay\Token\Bulk($session, 30, 'http://example.com/blender-30', 'sku-123', 'Best Blender');
+$bulk_token = new \AtPay\Token\Bulk($session, 30, 'sku-123', 'Best Blender');
 echo $bulk_token->to_s();
 ```
-
-If a recipient of this token attempts to purchase the product via email but
-hasn't configured a credit card, they'll receive a message asking them to
-complete their transaction at http://example.com/blender-30. You should
-integrate the @Pay JS SDK on that page if you want to allow them to create
-a two-click email transaction in the future. If a null value is passed for
-the registration url argument, an @Pay hosted registration form will be used.
 
 ## General Token Attributes
 

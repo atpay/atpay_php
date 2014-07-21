@@ -194,8 +194,6 @@ $invoice_token->collect_address = "shipping"      # nonw, shipping, billing_and_
 echo $invoice_token->to_s();
  ```
 
-
-
 ### Custom User Data
 
 **Custom User Data** is a token attribute that contains any string that you wish to get back in @Pay’s
@@ -206,7 +204,6 @@ $invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
 $invoice_token->custom_user_data("{foo => bar}");
 echo $invoice_token->to_s();
 ```
-
 
 ## Button Generation
 

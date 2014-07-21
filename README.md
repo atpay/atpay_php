@@ -93,6 +93,12 @@ $bulk_token = new \AtPay\Token\Bulk($session, 30, 'sku-123', 'Best Blender');
 echo $bulk_token->to_s();
 ```
 
+If a recipient of this token attempts to purchase the product via email but
+hasn't configured a credit card, they'll receive a message asking them to
+complete their transaction. You should integrate the @Pay JS SDK on that page
+if you want to allow them to create
+a two-click email transaction in the future.
+
 ## General Token Attributes
 
 ### Auth Only
@@ -116,6 +122,22 @@ To adjust the expiration:
 ```php
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com', 'sku-123');
 $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
+echo $invoice_token->to_s();
+ ```
+
+### Signup Page
+
+When a new Customer or a Customer with expired or invalid credit card details
+attempts to purchase from an Email, they will be redirected to a Token's **Signup Page**,
+where they can enter new Credit Card details. By default @Pay will host the
+**Signup Page**, but you may wish to direct the Customer to a product page on
+your own site (Enable @Pay Card tokenization on your own page with the
+[@Pay JS SDK](http://developer.atpay.com/v3/javascript/)). To specify a custom
+URL:
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com', 'invoice-123');
+$invoice_token->url('https://example.com/invoices/123');
 echo $invoice_token->to_s();
  ```
 

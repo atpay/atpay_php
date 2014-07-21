@@ -26,6 +26,11 @@
       $this->expires = $seconds;
     }
 
+    public function url($url)
+    {
+      $this->url = $url;
+    }
+
     public function user_data($string)
     {
       $this->user_data = $string;

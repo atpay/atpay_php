@@ -4,9 +4,9 @@
   class Bulk extends Core
   {
 
-    function __construct($session, $amount)
+    function __construct($session, $amount, $target = NULL)
     {
-      parent::__construct($session, $amount);
+      parent::__construct($session, $amount, $target);
     }
 
   }

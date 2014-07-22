@@ -6,8 +6,7 @@
 
     function __construct($session, $amount, $target)
     {
-      $this->target = $target;
-      parent::__construct($session, $amount);
+      parent::__construct($session, $amount, $target);
     }
 
   }

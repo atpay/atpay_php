@@ -44,6 +44,8 @@
 
       if( !is_null($this->url)){
         $body .= "url<" . $this->url . ">";
+      }else{
+        $body .= "url<\"\">";
       }
 
       if( !is_null($this->target)){

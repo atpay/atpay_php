@@ -4,12 +4,11 @@
   class Core
   {
 
-    function __construct($session, $amount, $target)
+    function __construct($session, $amount, $target = NULL)
     {
       $this->session = $session;
       $this->amount = $amount;
       $this->target = $target;
-
       $this->expires = time() + (60 * 60 * 24 * 7);
       $this->version = null;
       $this->url = null;

@@ -153,6 +153,31 @@ $invoice_token->request_custom_data('gift_message', true); //Input name , requir
 echo $invoice_token->to_s();
  ```
 
+
+#### Requesting the URL of a Hosted Signup Page
+
+The **Hosted Payment Capture Page** is related directly to a Token. It is
+created when the token is first received at `transaction@processor.atpay.com` or
+when the URL is requested from @Pay prior to the first use. To request the URL, you
+must contact @Pay's server:
+
+```php
+$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$registration = $invoice_token->register();
+
+echo $registration->url();
+=> "https://example.secured.atpay.com/{token_identifier}"
+
+echo $registration->short();
+=> "atpay://{token_identifier}"
+```
+
+NOTE: For high traffic this solution may be inadequate. Contact @Pay for
+consultation.
+
+
+
+
 #### Item Name
 
 You can set an **item name** that will display on the **Hosted Payment Capture Page**

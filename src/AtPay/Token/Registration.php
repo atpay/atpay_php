@@ -14,22 +14,19 @@
 
     public function url()
     {
-      $registration = $this->registration();
-      return $registration["url"];
+      return $this->registration()->url;
     }
 
 
     public function id()
     {
-      // $registration = $this->registration();
-      // return $registration['id'];
+      return $this->registration()->id;
     }
-
 
 
     public function short()
     {
-      // return "atpay://".$this->id();
+      return "atpay://".$this->id();
     }
 
 
@@ -49,8 +46,7 @@
       );
 
       $result = curl_exec($ch);
-      return $result;
-
+      return json_decode($result);
     }
 
   }

@@ -73,6 +73,12 @@
       $this->user_data["custom_user_data"] = $string;
     }
 
+    public function register()
+    {
+      $register = new \AtPay\Token\Registration($this->session, $this->to_s());
+      return $register;
+    }
+
     public function to_s()
     {
       $token_string = new \AtPay\Token\Encoder($this->session, $this->version, $this->amount, $this->target, $this->expires, $this->url, $this->user_data);

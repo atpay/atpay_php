@@ -8,14 +8,14 @@
 
   class Session{
 
-    function __construct($partner_id, $public, $private, $atpay=null)
+    function __construct($partner_id, $public, $private, $atpay=null, $endpoint=null)
     {
-
       $atpay = isset($atpay) ? $atpay : "QZuSjGhUz2DKEvjule1uRuW+N6vCOoMuR2PgCl57vB0=";
       $this->encrypter = new Encrypter($private, $public, $atpay);
       $this->packer = new Packer();
       $this->noncer = new \sodium\nonce();
       $this->partner_id = $partner_id;
+      $this->endpoint =  $endpoint ?: 'https://dashboard.atpay.com';
     }
 
   }

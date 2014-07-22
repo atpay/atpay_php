@@ -1,7 +1,7 @@
 <?php
   namespace AtPay\Token;
 
-  class Invoice extends Core
+  class Bulk extends Core
   {
 
     function __construct($session, $amount)

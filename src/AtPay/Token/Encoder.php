@@ -24,7 +24,7 @@
     {
       $body = $this->box($this->build_body(), $this->nonce);
       $contents = $this->nonce->nbin . $this->partner_id . $body;
-      return "@".$this->version.$this->encode64($contents)."@";
+      return "@".$this->version().$this->encode64($contents)."@";
     }
 
     public function site()
@@ -32,6 +32,13 @@
       return "Site tokens are not yet supported with the SDK";
     }
 
+
+    public function version()
+    {
+      if(!is_null($this->version)){
+        return base64_encode($this->packer->big_endian_long($this->version))."~";
+      }
+    }
 
     public function box($payload, $nonce)
     {

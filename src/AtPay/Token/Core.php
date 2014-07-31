@@ -28,7 +28,7 @@
 
     public function url($url)
     {
-      $this->user_data["url"] = $url;
+      $this->user_data["signup_url"] = $url;
     }
 
     public function name($name)

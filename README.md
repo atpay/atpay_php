@@ -198,16 +198,18 @@ $invoice_token->set_item_details("Lorem Ipsum ...");
 echo $invoice_token->to_s();
  ```
 
-#### Collect Address Details
+#### Address Collection
 
-You can specify if what what type of addresses you would like to request on the  **Hosted Payment Capture Page**.
-You can require none, shipping_only or billing_and_shipping
+Request the **Hosted Payment Capture Page** collect any combination
+of shipping or billing address with `requires_shipping_address(true)` and
+`requires_billing_address(true)`:
 
-```php
+```
 $invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
-$invoice_token->collect_address("shipping");     // none, shipping_only, billing_and_shipping
+$invoice_token->requires_billing_address(true);
+$invoice_token->requires_shipping_address(true);
 echo $invoice_token->to_s();
- ```
+```
 
 ### Set Item Quantity
 

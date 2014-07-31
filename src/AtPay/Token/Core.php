@@ -49,19 +49,39 @@
       $this->user_data["details"] = $string;
     }
 
-    public function collect_address($address){
-        if($address == "none" || !in_array($address, array('none','ship','shipping','shipping_only','all'))) {
-            $this->user_data["address"] = "none";
-        }else if(in_array($address, array('shipping','ship','shipping_only'))) {
-            $this->user_data["address"] = "ship";
-        }else if(in_array($address, array('both','all', "billing_and_shipping"))){
-          $this->user_data["address"] = "all";
+    public function requires_shipping_address($v){
+      $this->set_address();
+      $this->set_address_type("shipping", $v);
+    }
+
+    public function requires_billing_address($v){
+      $this->set_address();
+      $this->set_address_type("billing", $v);
+    }
+
+
+    private function set_address()
+    {
+      if (!array_key_exists("address", $this->user_data)) {
+        $this->user_data['address'] = [];
+       }
+    }
+
+    private function set_address_type($type, $v)
+    {
+      if($v == true){
+        if(!in_array($this->user_data['address'], array($type))){
+          array_push($this->user_data['address'], $type);
         }
+      }else{
+        if(in_array($this->user_data['address'], array($type))){
+          $this->user_data['address'] = array_diff($this->user_data['address'], array('$type'));
+        }
+      }
     }
 
     public function request_custom_data($name, $required = false)
     {
-
       $new_array = array(
         "name" => $name,
         "required" => $required

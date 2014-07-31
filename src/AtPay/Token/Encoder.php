@@ -50,11 +50,7 @@
       $body = "";
 
 
-      if(is_null($this->target) && is_null($this->url)){
-        $body .= "url<>";
-      }
-
-      if( !is_null($this->url)){
+      if( is_null($this->target)){
         $body .= "url<" . $this->url . ">";
       }
 

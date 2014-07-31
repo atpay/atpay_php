@@ -83,9 +83,18 @@
 
     public function to_s()
     {
-      $token_string = new \AtPay\Token\Encoder($this->session, $this->version, $this->amount, $this->target, $this->expires, $this->user_data["url"], $this->user_data);
+      $token_string = new \AtPay\Token\Encoder($this->session, $this->version, $this->amount, $this->target, $this->expires, $this->set_url(), $this->user_data);
       return $token_string->email();
     }
 
+  private function set_url()
+  {
+    if(array_key_exists("url", $this->user_data )){
+      return $this->user_data["url"];
+    }else{
+      return null;
+    }
   }
+
+}
 ?>

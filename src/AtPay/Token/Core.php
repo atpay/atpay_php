@@ -9,7 +9,7 @@
       $this->session = $session;
       $this->amount = $amount;
       $this->target = $target;
-      $this->expires = (60 * 60 * 24 * 7 * 2);
+      $this->expires = time() + (60 * 60 * 24 * 7 * 2);
       $this->version = null;
       $this->user_data = array(
         'custom_fields' => array()

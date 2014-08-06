@@ -23,7 +23,7 @@
 
     public function expires_in_seconds($seconds)
     {
-      $this->expires = $seconds;
+      $this->expires = time() + $seconds;
     }
 
     public function url($url)

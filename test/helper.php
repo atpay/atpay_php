@@ -29,6 +29,15 @@
     }
   }
 
+  if(!class_exists("MockNoncer")){
+    class MockNoncer
+    {
+      public function next(){
+        return(new MockNonce('123'));
+      }
+    }
+  }
+
   if(!class_exists("MockNonce")){
     class MockNonce
     {

@@ -278,7 +278,7 @@ The PHP client does not currently support button generation.
   $headers  = 'MIME-Version: 1.0' . "\r\n";
   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
   $headers .= 'From: '.$from."\r\n";
-  $message  = '<a href="mailto:transaction@processor.atpay.com?subject=PHP Token&body='.$token.'">Click to Buy</a>'; # creates a mailto with generated invoice token that will send to @Pay to process
+  $message  = '<a href="mailto:transaction@processor.atpay.com?subject='.urlencode('PHP Token').'&body='.urlencode($token).'">Click to Buy</a>'; # creates a mailto with generated invoice token that will send to @Pay to process
 
   // Send the email
   mail($customer_email, $subject, $message, $headers);

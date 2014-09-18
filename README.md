@@ -8,7 +8,7 @@ or a product sales offer, for instance). When a **Token** is sent to
 `transaction@processor.atpay.com` from an address associated with a **Payment Method**,
 it will create a **Transaction**.
 
-There are two classes of **Token** @Pay processes - the **Invoice Token**, which should
+There are two classes of **Token** @Pay processes - the **Targeted Token**, which should
 be used for sending invoices or transactions applicable to a single
 recipient, and the **Bulk Token**, which is suitable for email marketing lists.
 
@@ -39,7 +39,7 @@ require_once 'atpay_php.phar';        # include php archive.
 ```json
 {
   "require": {
-    "atpay/atpay_php": "2.0.2"
+    "atpay/atpay_php": "2.0.5"
   }
 }
 ```
@@ -61,19 +61,20 @@ All Token generation functions require a Session object. Grab your API credentia
 $session = new \AtPay\Session(partner_id, public_key, private_key);
 ```
 
-## Invoice Tokens
+## Targeted Tokens
 
-An **Invoice** token is ideal for sending invoices or for transactions that are
-only applicable to a single recipient (shopping cart abandonment, specialized
-offers, etc).
+A **targeted** token is ideal for sending invoices or for transactions that are
+only applicable to a single recipient (specialized offers, etc).
 
 The following creates a token for a 20 dollar transaction specifically for the
-credit card @Pay has associated with 'customer@example.com'.
+credit card @Pay has associated with 'test@example.com':
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
 echo $invoice_token->to_s();
 ```
+Note: **Targeted** tokens used to be known as **Invoice** tokens. Please use **Targeted** tokens, as **Invoice** tokens will be deprecated.
+
 
 ## Bulk Tokens
 
@@ -108,7 +109,7 @@ simultaneously. If you're shipping a physical good, or for some other reason
 want to delay the capture, use the `auth_only!` method to adjust this behavior:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
 $invoice_token->auth_only();
 echo $invoice_token->to_s();
 ```
@@ -120,7 +121,7 @@ after the expiration results in a polite error message being sent to the sender.
 To adjust the expiration:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
 $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
 echo $invoice_token->to_s();
  ```
@@ -136,7 +137,7 @@ your own site (Enable @Pay Card tokenization on your own page with the
 URL:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->url('https://example.com/invoices/123');
 echo $invoice_token->to_s();
  ```
@@ -148,7 +149,7 @@ can request further information from your Customer during the purchase on the
 Web. For instance, the following requests an optional Gift Message:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->request_custom_data('gift_message', true); //Input name , required (defaults to false)
 echo $invoice_token->to_s();
  ```
@@ -162,7 +163,7 @@ when the URL is requested from @Pay prior to the first use. To request the URL, 
 must contact @Pay's server:
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $registration = $invoice_token->register();
 
 echo $registration->url();
@@ -183,7 +184,7 @@ consultation.
 You can set an **item name** that will display on the **Hosted Payment Capture Page**
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->name("A Cool Offer");
 echo $invoice_token->to_s();
  ```
@@ -193,7 +194,7 @@ echo $invoice_token->to_s();
 You can set an **item details** that will display on the **Hosted Payment Capture Page**
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->set_item_details("Lorem Ipsum ...");
 echo $invoice_token->to_s();
  ```
@@ -205,7 +206,7 @@ of shipping or billing address with `requires_shipping_address(true)` and
 `requires_billing_address(true)`:
 
 ```
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->requires_billing_address(true);
 $invoice_token->requires_shipping_address(true);
 echo $invoice_token->to_s();
@@ -216,7 +217,7 @@ echo $invoice_token->to_s();
 If you are using @Pay's webhook for inventory control, you can specify an initial quantity for the offer you are creating.
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->set_item_quantity(3);
 echo $invoice_token->to_s();
  ```
@@ -228,7 +229,7 @@ echo $invoice_token->to_s();
 A Transaction should be Captured only when fulfillment is completed.
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'test@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $token_token->estimated_fulfillment_days(3)      # The token is now auth-only!
 email(token.to_s, receipient_address)
 ```
@@ -239,7 +240,7 @@ email(token.to_s, receipient_address)
 response on processing the token. It has a limit of 2500 characters.
 
 ```php
-$invoice_token = new \AtPay\Token\Invoice($session, 20, 'customer@example.com');
+$invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
 $invoice_token->custom_user_data("{foo => bar}");
 echo $invoice_token->to_s();
 ```
@@ -268,7 +269,7 @@ The PHP client does not currently support button generation.
   $customer_email = "customer@example.com";
 
 
-  $invoice_token = new \AtPay\Token\Invoice($session, $total_price, $customer_email);
+  $invoice_token = new \AtPay\Token\Targeted($session, $total_price, $customer_email);
   $token         = $invoice_token->to_s();
 
   // Send an Email to the Customer

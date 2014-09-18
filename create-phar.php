@@ -2,7 +2,7 @@
   $src_root = __DIR__ . "/src";
   $build_root = __DIR__ . "/build";
 
-  $phar = new Phar($build_root . "/atpay.phar", 0, "atpay.phar");
+  $phar = new Phar($build_root . "/atpay_php.phar", 0, "atpay_php.phar");
   $phar->buildFromDirectory($src_root);
   // $phar = new Phar($build_root . "/atpay.phar", FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, "atpay.phar");
   // $phar["index.php"] = file_get_contents($src_root . "/index.php");

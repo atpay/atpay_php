@@ -71,7 +71,14 @@ credit card @Pay has associated with 'test@example.com':
 
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
-echo $invoice_token->to_s();
+$registration = $invoice_token->register();
+
+echo $registration->url();
+=> "https://example.secured.atpay.com/{token_identifier}"
+
+echo $registration->short();
+=> "atpay://{token_identifier}"
+
 ```
 Note: **Targeted** tokens used to be known as **Invoice** tokens. Please use **Targeted** tokens, as **Invoice** tokens will be deprecated.
 
@@ -91,7 +98,7 @@ To create a **Bulk Token** for a 30 dollar blender:
 
 ```php
 $bulk_token = new \AtPay\Token\Bulk($session, 30);
-echo $bulk_token->to_s();
+$registration = $bulk_token->register();
 ```
 
 If a recipient of this token attempts to purchase the product via email but
@@ -153,31 +160,6 @@ $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->request_custom_data('gift_message', true); //Input name , required (defaults to false)
 echo $invoice_token->to_s();
  ```
-
-
-#### Requesting the URL of a Hosted Signup Page
-
-The **Hosted Payment Capture Page** is related directly to a Token. It is
-created when the token is first received at `transaction@processor.atpay.com` or
-when the URL is requested from @Pay prior to the first use. To request the URL, you
-must contact @Pay's server:
-
-```php
-$invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
-$registration = $invoice_token->register();
-
-echo $registration->url();
-=> "https://example.secured.atpay.com/{token_identifier}"
-
-echo $registration->short();
-=> "atpay://{token_identifier}"
-```
-
-NOTE: For high traffic this solution may be inadequate. Contact @Pay for
-consultation.
-
-
-
 
 #### Item Name
 

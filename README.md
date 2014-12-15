@@ -76,6 +76,9 @@ $registration = $invoice_token->register();
 echo $registration->url();
 => "https://example.secured.atpay.com/{token_identifier}"
 
+echo $registration->id();
+=> "{token_identifier}"
+
 echo $registration->short();
 => "atpay://{token_identifier}"
 
@@ -118,7 +121,7 @@ want to delay the capture, use the `auth_only!` method to adjust this behavior:
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
 $invoice_token->auth_only();
-echo $invoice_token->to_s();
+$registration = $invoice_token->register();
 ```
 
 ### Expiration
@@ -130,8 +133,8 @@ To adjust the expiration:
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
 $invoice_token->expires_in_seconds(60 * 60 * 24 * 7); // one week
-echo $invoice_token->to_s();
- ```
+$registration = $invoice_token->register(); 
+```
 
 ### Signup Page
 
@@ -146,8 +149,8 @@ URL:
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->url('https://example.com/invoices/123');
-echo $invoice_token->to_s();
- ```
+$registration = $invoice_token->register();
+```
 
 #### Requesting Custom Information on a Hosted Signup Page
 
@@ -158,8 +161,8 @@ Web. For instance, the following requests an optional Gift Message:
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->request_custom_data('gift_message', true); //Input name , required (defaults to false)
-echo $invoice_token->to_s();
- ```
+$registration = $invoice_token->register(); 
+```
 
 #### Item Name
 
@@ -168,8 +171,8 @@ You can set an **item name** that will display on the **Hosted Payment Capture P
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->name("A Cool Offer");
-echo $invoice_token->to_s();
- ```
+$registration = $invoice_token->register(); 
+```
 
 #### Item Details
 
@@ -178,8 +181,8 @@ You can set an **item details** that will display on the **Hosted Payment Captur
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->set_item_details("Lorem Ipsum ...");
-echo $invoice_token->to_s();
- ```
+$registration = $invoice_token->register(); 
+```
 
 #### Address Collection
 
@@ -191,7 +194,7 @@ of shipping or billing address with `requires_shipping_address(true)` and
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->requires_billing_address(true);
 $invoice_token->requires_shipping_address(true);
-echo $invoice_token->to_s();
+$registration = $invoice_token->register();
 ```
 
 ### Set Item Quantity
@@ -201,8 +204,8 @@ If you are using @Pay's webhook for inventory control, you can specify an initia
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $invoice_token->set_item_quantity(3);
-echo $invoice_token->to_s();
- ```
+$registration = $invoice_token->register(); 
+```
 
 ### Fulfillment Time
 
@@ -213,7 +216,6 @@ A Transaction should be Captured only when fulfillment is completed.
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'test@example.com');
 $token_token->estimated_fulfillment_days(3)      # The token is now auth-only!
-email(token.to_s, receipient_address)
 ```
 
 ### Custom User Data
@@ -224,7 +226,7 @@ response on processing the token. It has a limit of 2500 characters.
 ```php
 $invoice_token = new \AtPay\Token\Targeted($session, 20, 'customer@example.com');
 $invoice_token->custom_user_data("{foo => bar}");
-echo $invoice_token->to_s();
+$registration = $invoice_token->register();
 ```
 
 ## Button Generation
@@ -252,7 +254,7 @@ The PHP client does not currently support button generation.
 
 
   $invoice_token = new \AtPay\Token\Targeted($session, $total_price, $customer_email);
-  $token         = $invoice_token->to_s();
+  $token         = $invoice_token->register(); 
 
   // Send an Email to the Customer
   $subject = "You Abandoned Your Cart!";
